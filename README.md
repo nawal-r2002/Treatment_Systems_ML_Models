@@ -27,6 +27,6 @@ If There is a Need to Create Analytical Plots, then we will use Matplotlib
 To-Do:
 [X] - Complete the Data Cleaning Process by removing irrelevant columns from the dataset
 [X] - Add Data to Set Up Model for Training
-[] - Complete the Pre-Processing Step for Training Model
-[] - Complete the Regression Model
-[] - Add Model Visuals and Complete Data Analysis
+[X] - Complete the Pre-Processing Step for Training Model
+[X] - Complete the Regression Model
+[X] - Add Model Visuals and Complete Data Analysis

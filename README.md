@@ -8,3 +8,6 @@ Resources on How to Use Keras to Run Neural Networks:
 
 Resources on How to Use Scikit Learn to run SVR:
 
+
+Projects We Will Use to Learn How to Implement Models:
+

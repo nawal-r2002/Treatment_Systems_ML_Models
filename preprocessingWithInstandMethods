@@ -1,0 +1,106 @@
+import pandas as pd
+import os
+from datetime import datetime, timedelta
+
+
+
+
+def isFourteenDays(fileName):
+    """
+    Check if the dataset in the file contains data spanning more than 14 days.
+    
+    Parameters:
+    fileName (str): The name of the file to be checked.
+    
+    Returns:
+    tuple: (str, bool, list) - fileName, a boolean indicating if the file exceeds 14 days,
+           and a list of dates that exceed the 14-day range.
+    """
+    # Load data
+    df = pd.read_csv(fileName)
+    
+    # Parse the date column (assuming it's named 'Date'). Adjust if the name is different.
+    df['Date'] = pd.to_datetime(df['Date'])
+    
+    # Calculate date range
+    min_date = df['Date'].min()
+    max_date = df['Date'].max()
+    days_difference = (max_date - min_date).days
+    
+    # Identify extra dates beyond the 14-day range
+    if days_difference > 14:
+        cutoff_date = min_date + timedelta(days=14)
+        extra_days = df[df['Date'] > cutoff_date]['Date'].unique().tolist()
+        return fileName, True, extra_days
+    else:
+        return fileName, False, []
+
+def removeExtraDays(fileName, removeDays, directory):
+    """
+    Creates a new file with specified days removed and saves it in a new directory.
+    
+    Parameters:
+    fileName (str): Name of the file being observed.
+    removeDays (list): List of dates to be removed from the dataset.
+    directory (str): Path to the directory where the new file will be saved.
+    
+    Returns:
+    None
+    """
+    # Load the data
+    df = pd.read_csv(fileName)
+    
+    # Convert date column to datetime format for comparison
+    df['Date'] = pd.to_datetime(df['Date'])
+    
+    # Remove the specified days from the dataset
+    df_filtered = df[~df['Date'].isin(pd.to_datetime(removeDays))]
+    
+    # Ensure the output directory exists
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    
+    # Save the filtered file in the new directory
+    new_file_path = os.path.join(directory, f"filtered_{os.path.basename(fileName)}")
+    df_filtered.to_csv(new_file_path, index=False)
+
+def concatFiles(oldDirectory, newDirectory):
+    """
+    Concatenates CSV files in a directory and adds a 'PatientID' column.
+    
+    Parameters:
+    oldDirectory (str): Directory path where the individual files are stored.
+    newDirectory (str): Directory path where the concatenated file will be saved.
+    
+    Returns:
+    None
+    """
+    all_data = []
+    patient_id = 1
+    
+    # Loop through each file in the old directory
+    for file in os.listdir(oldDirectory):
+        if file.endswith(".csv"):
+            file_path = os.path.join(oldDirectory, file)
+            
+            # Load file data
+            df = pd.read_csv(file_path)
+            
+            # Add PatientID column
+            df['PatientID'] = patient_id
+            all_data.append(df)
+            
+            # Increment PatientID for the next file
+            patient_id += 1
+    
+    # Concatenate all dataframes in the list
+    concatenated_df = pd.concat(all_data, ignore_index=True)
+    
+    # Ensure the output directory exists
+    if not os.path.exists(newDirectory):
+        os.makedirs(newDirectory)
+    
+    # Save the concatenated dataframe
+    output_file = os.path.join(newDirectory, "concatenated_data.csv")
+    concatenated_df.to_csv(output_file, index=False)
+

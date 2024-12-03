@@ -1,3 +1,9 @@
+HUPA-UCM Diabetes Dataset
+
+https://data.mendeley.com/datasets/3hbcscwz44/1 
+
+Description: dataset provides collection of continuous glucose monitoring, insulin dose administration, meal ingestion in carbohydrate grams, steps, calories burned, heart rate, and sleep quality from 25 people with Type 1 diabetes. Has preprocessed data and raw data if we want to customize the labeling (if needed) 
+
 Features of Database:
 
 1. Time and Date:

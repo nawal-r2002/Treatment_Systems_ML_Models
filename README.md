@@ -1,12 +1,5 @@
 I would recommend cloning this repository into a local directory. 
 
-If you do not have conda installed on your computer to run general python environments then go here: \
-[Install Anaconda](https://www.anaconda.com/download/success)
-
-In this directory, there is a file called environment.yml. 
-
-After downloading Anaconda, you can search Anaconda Navigator and import the yml file to create an environment by going to the Environments Tab. You can also use Anaconda Prompt to add the environment by using this command: conda create env -f environment.yml. 
-
 Libraries Needed For Pre-Processing: \
 Pandas \
 Possibly Numpy
